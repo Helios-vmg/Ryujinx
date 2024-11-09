@@ -734,6 +734,7 @@
   "RyujinxUpdaterMessage": "您想將 Ryujinx 升級到最新版本嗎?",
   "SettingsTabHotkeysVolumeUpHotkey": "提高音量:",
   "SettingsTabHotkeysVolumeDownHotkey": "降低音量:",
+  "SettingsTabHotkeysToggleMotionEmulationHotkey": "Toggle Motion Emulation:",
   "SettingsEnableMacroHLE": "啟用 Macro HLE",
   "SettingsEnableMacroHLETooltip": "GPU 巨集程式碼的進階模擬。\n\n可提高效能，但在某些遊戲中可能會導致圖形閃爍。\n\n如果不確定，請保持開啟狀態。",
   "SettingsEnableColorSpacePassthrough": "色彩空間直通",

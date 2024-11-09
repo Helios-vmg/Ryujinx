@@ -208,6 +208,7 @@ namespace Ryujinx.Input.HLE
 
         private IGamepad _gamepad;
         private InputConfig _config;
+        public StandardControllerInputConfig StandardControllerInputConfig => _config as StandardControllerInputConfig;
 
         public IGamepadDriver GamepadDriver { get; private set; }
         public GamepadStateSnapshot State { get; private set; }
@@ -273,6 +274,92 @@ namespace Ryujinx.Input.HLE
             }
         }
 
+        private static double Transform(double x)
+        {
+            return (Math.Pow(30, Math.Abs(x)) - 1) / 20 * Math.Sign(x);
+        }
+
+        private void EmulateMotion(IGamepad gamepad, StandardControllerInputConfig config)
+        {
+            var (lx, ly) = gamepad.GetStick(StickInputId.Left);
+            var (rx, _) = gamepad.GetStick(StickInputId.Right);
+
+            var gyroscope = new Vector3(-ly, lx, -rx) * 100;
+            var x = Transform(lx);
+            var y = Transform(ly);
+            var accelerometer = new Vector3((float)x, (float)y, -1);
+
+            _leftMotionInput.Update(accelerometer, gyroscope, (ulong)PerformanceCounter.ElapsedNanoseconds / 1000, config.Motion.Sensitivity, (float)config.Motion.GyroDeadzone);
+            if (config.ControllerType == ConfigControllerType.JoyconPair)
+                _rightMotionInput = _leftMotionInput;
+        }
+
+        private void ReadGamepadMotion(StandardControllerInputConfig controllerConfig, IGamepad gamepad)
+        {
+            if (gamepad.Features.HasFlag(GamepadFeaturesFlag.Motion))
+            {
+                Vector3 accelerometer = gamepad.GetMotionData(MotionInputId.Accelerometer);
+                Vector3 gyroscope = gamepad.GetMotionData(MotionInputId.Gyroscope);
+
+                accelerometer = new Vector3(accelerometer.X, -accelerometer.Z, accelerometer.Y);
+                gyroscope = new Vector3(gyroscope.X, -gyroscope.Z, gyroscope.Y);
+
+                _leftMotionInput.Update(accelerometer, gyroscope,
+                    (ulong)PerformanceCounter.ElapsedNanoseconds / 1000,
+                    controllerConfig.Motion.Sensitivity, (float)controllerConfig.Motion.GyroDeadzone);
+
+                if (controllerConfig.ControllerType == ConfigControllerType.JoyconPair)
+                {
+                    _rightMotionInput = _leftMotionInput;
+                }
+            }
+        }
+
+        private void ReadCemuMotion(StandardControllerInputConfig controllerConfig)
+        {
+            if (controllerConfig.Motion is CemuHookMotionConfigController cemuControllerConfig)
+            {
+                int clientId = (int)controllerConfig.PlayerIndex;
+
+                // First of all ensure we are registered
+                _cemuHookClient.RegisterClient(clientId, cemuControllerConfig.DsuServerHost,
+                    cemuControllerConfig.DsuServerPort);
+
+                // Then request and retrieve the data
+                _cemuHookClient.RequestData(clientId, cemuControllerConfig.Slot);
+                _cemuHookClient.TryGetData(clientId, cemuControllerConfig.Slot, out _leftMotionInput);
+
+                if (controllerConfig.ControllerType == ConfigControllerType.JoyconPair)
+                {
+                    if (!cemuControllerConfig.MirrorInput)
+                    {
+                        _cemuHookClient.RequestData(clientId, cemuControllerConfig.AltSlot);
+                        _cemuHookClient.TryGetData(clientId, cemuControllerConfig.AltSlot,
+                            out _rightMotionInput);
+                    }
+                    else
+                    {
+                        _rightMotionInput = _leftMotionInput;
+                    }
+                }
+            }
+        }
+
+        private void ReadMotion(IGamepad gamepad, StandardControllerInputConfig controllerConfig)
+        {
+            switch (controllerConfig.Motion.MotionBackend)
+            {
+                case MotionInputBackendType.GamepadDriver:
+                    ReadGamepadMotion(controllerConfig, gamepad);
+                    break;
+                case MotionInputBackendType.CemuHook:
+                    ReadCemuMotion(controllerConfig);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public void Update()
         {
             // _gamepad may be altered by other threads
@@ -280,52 +367,14 @@ namespace Ryujinx.Input.HLE
 
             if (gamepad != null && GamepadDriver != null)
             {
-                State = gamepad.GetMappedStateSnapshot();
+                State = gamepad.GetMappedStateSnapshot(StandardControllerInputConfig?.Motion.SticksToMotion ?? false);
 
-                if (_config is StandardControllerInputConfig controllerConfig && controllerConfig.Motion.EnableMotion)
+                if (_config is StandardControllerInputConfig controllerConfig)
                 {
-                    if (controllerConfig.Motion.MotionBackend == MotionInputBackendType.GamepadDriver)
-                    {
-                        if (gamepad.Features.HasFlag(GamepadFeaturesFlag.Motion))
-                        {
-                            Vector3 accelerometer = gamepad.GetMotionData(MotionInputId.Accelerometer);
-                            Vector3 gyroscope = gamepad.GetMotionData(MotionInputId.Gyroscope);
-
-                            accelerometer = new Vector3(accelerometer.X, -accelerometer.Z, accelerometer.Y);
-                            gyroscope = new Vector3(gyroscope.X, -gyroscope.Z, gyroscope.Y);
-
-                            _leftMotionInput.Update(accelerometer, gyroscope, (ulong)PerformanceCounter.ElapsedNanoseconds / 1000, controllerConfig.Motion.Sensitivity, (float)controllerConfig.Motion.GyroDeadzone);
-
-                            if (controllerConfig.ControllerType == ConfigControllerType.JoyconPair)
-                            {
-                                _rightMotionInput = _leftMotionInput;
-                            }
-                        }
-                    }
-                    else if (controllerConfig.Motion.MotionBackend == MotionInputBackendType.CemuHook && controllerConfig.Motion is CemuHookMotionConfigController cemuControllerConfig)
-                    {
-                        int clientId = (int)controllerConfig.PlayerIndex;
-
-                        // First of all ensure we are registered
-                        _cemuHookClient.RegisterClient(clientId, cemuControllerConfig.DsuServerHost, cemuControllerConfig.DsuServerPort);
-
-                        // Then request and retrieve the data
-                        _cemuHookClient.RequestData(clientId, cemuControllerConfig.Slot);
-                        _cemuHookClient.TryGetData(clientId, cemuControllerConfig.Slot, out _leftMotionInput);
-
-                        if (controllerConfig.ControllerType == ConfigControllerType.JoyconPair)
-                        {
-                            if (!cemuControllerConfig.MirrorInput)
-                            {
-                                _cemuHookClient.RequestData(clientId, cemuControllerConfig.AltSlot);
-                                _cemuHookClient.TryGetData(clientId, cemuControllerConfig.AltSlot, out _rightMotionInput);
-                            }
-                            else
-                            {
-                                _rightMotionInput = _leftMotionInput;
-                            }
-                        }
-                    }
+                    if (controllerConfig.Motion.SticksToMotion)
+                        EmulateMotion(gamepad, controllerConfig);
+                    else if (controllerConfig.Motion.EnableMotion)
+                        ReadMotion(gamepad, controllerConfig);
                 }
             }
             else

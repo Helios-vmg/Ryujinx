@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="Ryujinx.Ava.UI.Views.Settings.SettingsHotkeysView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -101,6 +101,12 @@
                     <TextBlock Text="{locale:Locale SettingsTabHotkeysVolumeDownHotkey}" />
                     <ToggleButton Name="VolumeDown">
                         <TextBlock Text="{Binding KeyboardHotkey.VolumeDown, Converter={StaticResource Key}}" />
+                    </ToggleButton>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="{locale:Locale SettingsTabHotkeysToggleMotionEmulationHotkey}" />
+                    <ToggleButton Name="ToggleMotionEmulation">
+                        <TextBlock Text="{Binding KeyboardHotkey.ToggleMotionEmulation, Converter={StaticResource Key}}" />
                     </ToggleButton>
                 </StackPanel>
             </StackPanel>

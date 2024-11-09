@@ -1200,6 +1200,14 @@ namespace Ryujinx.Ava
 
                             _viewModel.Volume = Device.GetVolume();
                             break;
+                        case KeyboardHotkeyState.ToggleMotionEmulation:
+                            foreach (var controller in NpadManager.Controllers)
+                            {
+                                var motion = controller?.StandardControllerInputConfig?.Motion;
+                                if (motion != null)
+                                    motion.SticksToMotion = !motion.SticksToMotion;
+                            }
+                            break;
                         case KeyboardHotkeyState.None:
                             (_keyboardInterface as AvaloniaKeyboard).Clear();
                             break;
@@ -1272,6 +1280,10 @@ namespace Ryujinx.Ava
             else if (_keyboardInterface.IsPressed((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.VolumeDown))
             {
                 state = KeyboardHotkeyState.VolumeDown;
+            }
+            else if (_keyboardInterface.IsPressed((Key)ConfigurationState.Instance.Hid.Hotkeys.Value.ToggleMotionEmulation))
+            {
+                state = KeyboardHotkeyState.ToggleMotionEmulation;
             }
 
             return state;

@@ -77,35 +77,39 @@ namespace Ryujinx.Input
         /// Get a snaphost of the state of the gamepad that is remapped with the informations from the <see cref="InputConfig"/> set via <see cref="SetConfiguration(InputConfig)"/>.
         /// </summary>
         /// <returns>A remapped snaphost of the state of the gamepad.</returns>
-        GamepadStateSnapshot GetMappedStateSnapshot();
+        GamepadStateSnapshot GetMappedStateSnapshot(bool ignoreSticks);
 
         /// <summary>
         /// Get a snaphost of the state of the gamepad.
         /// </summary>
         /// <returns>A snaphost of the state of the gamepad.</returns>
-        GamepadStateSnapshot GetStateSnapshot();
+        GamepadStateSnapshot GetStateSnapshot(bool ignoreSticks);
 
         /// <summary>
         /// Get a snaphost of the state of a gamepad.
         /// </summary>
         /// <param name="gamepad">The gamepad to do a snapshot of</param>
+        /// <param name="ignoreSticks">Forces the stick states to zero</param>
         /// <returns>A snaphost of the state of the gamepad.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static GamepadStateSnapshot GetStateSnapshot(IGamepad gamepad)
+        static GamepadStateSnapshot GetStateSnapshot(IGamepad gamepad, bool ignoreSticks)
         {
             // NOTE: Update Array size if JoystickInputId is changed.
             Array3<Array2<float>> joysticksState = default;
 
-            for (StickInputId inputId = StickInputId.Left; inputId < StickInputId.Count; inputId++)
+            if (!ignoreSticks)
             {
-                (float state0, float state1) = gamepad.GetStick(inputId);
+                for (StickInputId inputId = StickInputId.Left; inputId < StickInputId.Count; inputId++)
+                {
+                    (float state0, float state1) = gamepad.GetStick(inputId);
 
-                Array2<float> state = default;
+                    Array2<float> state = default;
 
-                state[0] = state0;
-                state[1] = state1;
+                    state[0] = state0;
+                    state[1] = state1;
 
-                joysticksState[(int)inputId] = state;
+                    joysticksState[(int)inputId] = state;
+                }
             }
 
             // NOTE: Update Array size if GamepadInputId is changed.

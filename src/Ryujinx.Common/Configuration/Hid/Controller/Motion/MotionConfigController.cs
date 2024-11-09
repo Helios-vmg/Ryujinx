@@ -21,5 +21,10 @@ namespace Ryujinx.Common.Configuration.Hid.Controller.Motion
         /// Enable Motion Controls
         /// </summary>
         public bool EnableMotion { get; set; }
+
+        /// <summary>
+        /// Enable translating sticks to motion controls.
+        /// </summary>
+        public bool SticksToMotion { get; set; }
     }
 }

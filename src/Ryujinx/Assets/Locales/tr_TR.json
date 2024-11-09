@@ -734,6 +734,7 @@
   "RyujinxUpdaterMessage": "Ryujinx'i en son sürüme güncellemek ister misiniz?",
   "SettingsTabHotkeysVolumeUpHotkey": "Sesi Arttır:",
   "SettingsTabHotkeysVolumeDownHotkey": "Sesi Azalt:",
+  "SettingsTabHotkeysToggleMotionEmulationHotkey": "Toggle Motion Emulation:",
   "SettingsEnableMacroHLE": "Macro HLE'yi Aktifleştir",
   "SettingsEnableMacroHLETooltip": "GPU Macro kodunun yüksek seviye emülasyonu.\n\nPerformansı arttırır, ama bazı oyunlarda grafik hatalarına yol açabilir.\n\nEmin değilseniz AÇIK bırakın.",
   "SettingsEnableColorSpacePassthrough": "Renk Alanı Geçişi",

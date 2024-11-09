@@ -33,7 +33,7 @@ namespace Ryujinx.Input.Assigner
         {
             if (_gamepad != null)
             {
-                _currState = _gamepad.GetStateSnapshot();
+                _currState = _gamepad.GetStateSnapshot(false);
                 _prevState = _currState;
             }
         }
@@ -43,7 +43,7 @@ namespace Ryujinx.Input.Assigner
             if (_gamepad != null)
             {
                 _prevState = _currState;
-                _currState = _gamepad.GetStateSnapshot();
+                _currState = _gamepad.GetStateSnapshot(false);
             }
 
             CollectButtonStats();

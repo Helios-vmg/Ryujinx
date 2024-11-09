@@ -95,7 +95,7 @@ namespace Ryujinx.Input.GTK3
             return ((short)(stick.X * short.MaxValue), (short)(stick.Y * short.MaxValue));
         }
 
-        public GamepadStateSnapshot GetMappedStateSnapshot()
+        public GamepadStateSnapshot GetMappedStateSnapshot(bool _)
         {
             KeyboardStateSnapshot rawState = GetKeyboardStateSnapshot();
             GamepadStateSnapshot result = default;
@@ -131,7 +131,7 @@ namespace Ryujinx.Input.GTK3
             return result;
         }
 
-        public GamepadStateSnapshot GetStateSnapshot()
+        public GamepadStateSnapshot GetStateSnapshot(bool _)
         {
             throw new NotSupportedException();
         }

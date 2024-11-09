@@ -734,6 +734,7 @@
   "RyujinxUpdaterMessage": "คุณต้องการอัพเดต รียูจินซ์ เป็นเวอร์ชั่นล่าสุดหรือไม่?",
   "SettingsTabHotkeysVolumeUpHotkey": "เพิ่มระดับเสียง:",
   "SettingsTabHotkeysVolumeDownHotkey": "ลดระดับเสียง:",
+  "SettingsTabHotkeysToggleMotionEmulationHotkey": "Toggle Motion Emulation:",
   "SettingsEnableMacroHLE": "เปิดใช้งาน มาโคร HLE",
   "SettingsEnableMacroHLETooltip": "การจำลองระดับสูงของโค้ดมาโคร GPU\n\nปรับปรุงประสิทธิภาพ แต่อาจทำให้เกิดข้อผิดพลาดด้านกราฟิกในบางเกม\n\nปล่อยไว้หากคุณไม่แน่ใจ",
   "SettingsEnableColorSpacePassthrough": "ทะลุผ่านพื้นที่สี",

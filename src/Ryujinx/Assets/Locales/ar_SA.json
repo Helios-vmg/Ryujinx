@@ -734,6 +734,7 @@
   "RyujinxUpdaterMessage": "هل تريد تحديث ريوجينكس إلى أحدث إصدار؟",
   "SettingsTabHotkeysVolumeUpHotkey": "زيادة مستوى الصوت:",
   "SettingsTabHotkeysVolumeDownHotkey": "خفض مستوى الصوت:",
+  "SettingsTabHotkeysToggleMotionEmulationHotkey": "Toggle Motion Emulation:",
   "SettingsEnableMacroHLE": "تمكين Maro HLE",
   "SettingsEnableMacroHLETooltip": "محاكاة عالية المستوى لكود مايكرو وحدة معالجة الرسوميات.\n\nيعمل على تحسين الأداء، ولكنه قد يسبب خللا رسوميا في بعض الألعاب.\n\nاتركه مفعلا إذا لم تكن متأكدا.",
   "SettingsEnableColorSpacePassthrough": "عبور مساحة اللون",

@@ -734,6 +734,7 @@
   "RyujinxUpdaterMessage": "האם ברצונך לעדכן את ריוג'ינקס לגרסא האחרונה?",
   "SettingsTabHotkeysVolumeUpHotkey": "הגבר את עוצמת הקול:",
   "SettingsTabHotkeysVolumeDownHotkey": "הנמך את עוצמת הקול:",
+  "SettingsTabHotkeysToggleMotionEmulationHotkey": "Toggle Motion Emulation:",
   "SettingsEnableMacroHLE": "Enable Macro HLE",
   "SettingsEnableMacroHLETooltip": "אמולצייה ברמה גבוהה של כרטיס גראפי עם קוד מקרו.\n\nמשפר את ביצועי היישום אך עלול לגרום לגליצ'ים חזותיים במשחקים מסויימים.\n\nמוטב להשאיר דלוק אם אינך בטוח.",
   "SettingsEnableColorSpacePassthrough": "שקיפות מרחב צבע",

@@ -734,6 +734,7 @@
   "RyujinxUpdaterMessage": "Vuoi aggiornare Ryujinx all'ultima versione?",
   "SettingsTabHotkeysVolumeUpHotkey": "Alza il volume:",
   "SettingsTabHotkeysVolumeDownHotkey": "Abbassa il volume:",
+  "SettingsTabHotkeysToggleMotionEmulationHotkey": "Toggle Motion Emulation:",
   "SettingsEnableMacroHLE": "Attiva HLE macro",
   "SettingsEnableMacroHLETooltip": "Emulazione di alto livello del codice macro della GPU.\n\nMigliora le prestazioni, ma può causare anomalie grafiche in alcuni giochi.\n\nNel dubbio, lascia l'opzione attiva.",
   "SettingsEnableColorSpacePassthrough": "Passthrough dello spazio dei colori",

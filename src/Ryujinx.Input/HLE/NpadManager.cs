@@ -50,6 +50,8 @@ namespace Ryujinx.Input.HLE
             _gamepadDriver.OnGamepadDisconnected += HandleOnGamepadDisconnected;
         }
 
+        public IEnumerable<NpadController> Controllers => _controllers;
+
         private void RefreshInputConfigForHLE()
         {
             lock (_lock)

@@ -49,7 +49,7 @@ namespace Ryujinx.Ava.Input
             return IKeyboard.GetStateSnapshot(this);
         }
 
-        public GamepadStateSnapshot GetMappedStateSnapshot()
+        public GamepadStateSnapshot GetMappedStateSnapshot(bool _)
         {
             KeyboardStateSnapshot rawState = GetKeyboardStateSnapshot();
             GamepadStateSnapshot result = default;
@@ -85,7 +85,7 @@ namespace Ryujinx.Ava.Input
             return result;
         }
 
-        public GamepadStateSnapshot GetStateSnapshot()
+        public GamepadStateSnapshot GetStateSnapshot(bool _)
         {
             throw new NotSupportedException();
         }

@@ -265,14 +265,14 @@ namespace Ryujinx.Input.SDL2
             }
         }
 
-        public GamepadStateSnapshot GetStateSnapshot()
+        public GamepadStateSnapshot GetStateSnapshot(bool ignoreSticks)
         {
-            return IGamepad.GetStateSnapshot(this);
+            return IGamepad.GetStateSnapshot(this, ignoreSticks);
         }
 
-        public GamepadStateSnapshot GetMappedStateSnapshot()
+        public GamepadStateSnapshot GetMappedStateSnapshot(bool ignoreSticks)
         {
-            GamepadStateSnapshot rawState = GetStateSnapshot();
+            GamepadStateSnapshot rawState = GetStateSnapshot(ignoreSticks);
             GamepadStateSnapshot result = default;
 
             lock (_userMappingLock)

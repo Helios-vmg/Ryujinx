@@ -34,7 +34,7 @@ namespace Ryujinx.Ava.Input
             return _driver.Scroll;
         }
 
-        public GamepadStateSnapshot GetMappedStateSnapshot()
+        public GamepadStateSnapshot GetMappedStateSnapshot(bool _)
         {
             throw new NotImplementedException();
         }
@@ -44,7 +44,7 @@ namespace Ryujinx.Ava.Input
             throw new NotImplementedException();
         }
 
-        public GamepadStateSnapshot GetStateSnapshot()
+        public GamepadStateSnapshot GetStateSnapshot(bool _)
         {
             throw new NotImplementedException();
         }

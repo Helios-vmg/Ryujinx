@@ -104,6 +104,17 @@ namespace Ryujinx.Ava.UI.Models.Input
             }
         }
 
+        private Key _toggleMotionEmulation;
+        public Key ToggleMotionEmulation
+        {
+            get => _toggleMotionEmulation;
+            set
+            {
+                _toggleMotionEmulation = value;
+                OnPropertyChanged();
+            }
+        }
+
         public HotkeyConfig(KeyboardHotkeys config)
         {
             if (config != null)
@@ -117,6 +128,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                 ResScaleDown = config.ResScaleDown;
                 VolumeUp = config.VolumeUp;
                 VolumeDown = config.VolumeDown;
+                ToggleMotionEmulation = config.ToggleMotionEmulation;
             }
         }
 
@@ -133,6 +145,7 @@ namespace Ryujinx.Ava.UI.Models.Input
                 ResScaleDown = ResScaleDown,
                 VolumeUp = VolumeUp,
                 VolumeDown = VolumeDown,
+                ToggleMotionEmulation = ToggleMotionEmulation,
             };
 
             return config;
